@@ -1,0 +1,12 @@
+.upperrow {
+  display: flex;
+}
+
+.signup {
+  border: 2px solid #645747;
+  box-shadow: 5px 5px grey;
+  border-radius: 5%;
+  width: 25%;
+  background-color: #ffe4c4;
+  padding: 2%;
+}
