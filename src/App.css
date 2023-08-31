@@ -1,12 +1,45 @@
+button {
+  margin: 10px 0 10px 0;
+}
+
+button:hover{cursor: pointer;}
+
 .upperrow {
   display: flex;
 }
 
-.signup {
+span {
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.signup,
+.signin,
+.checkout,
+.signout,
+.todolist {
   border: 2px solid #645747;
   box-shadow: 5px 5px grey;
   border-radius: 5%;
-  width: 25%;
-  background-color: #ffe4c4;
+  width: 20%;
+  max-height: 20%;
   padding: 2%;
+}
+
+.todolist {
+  background-color: #ac9fafce;
+}
+
+.signin {
+  background-color: #67b363ce;
+}
+
+.signup {
+  background-color: #ffe4c4;
+}
+.checkout {
+  background-color: #87d2b4;
+}
+.signout {
+  background-color: #6a758e;
 }
