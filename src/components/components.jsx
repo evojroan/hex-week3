@@ -6,7 +6,9 @@ import {
   signout,
   getTodos,
   addTodo,
-  deleteTodo
+  deleteTodo,
+  editTodo,
+  toggleDone
 } from 'src/api/API';
 
 //Signup 元件
@@ -112,7 +114,7 @@ export function Checkout({ token }) {
   return (
     <div>
       <h3>檢查 Token 是否有效 Checkout</h3>
-      Token 為：<span>{token}</span>
+      Token 為：<span className='showToken'>{token}</span>
       <br />
       <button
         onClick={() => {
@@ -133,7 +135,7 @@ export function Signout({ token }) {
   return (
     <div>
       <h3>登出 Sign Out</h3>
-      Token 為：<span>{token}</span>
+      Token 為：<span className='showToken'>{token}</span>
       <br />
       <button
         onClick={() => {
@@ -149,18 +151,17 @@ export function Signout({ token }) {
 
 //Todolist 元件
 export function Todolist({ token }) {
-  //const dummytodos = ['寫作業', '倒垃圾', '洗衣服', '健身'];
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
-  const [todoEdit, setTodoEdit] = useState({});
+  const [todoEdit, setTodoEdit] = useState({}); //收集所有編輯的事項
 
   useEffect(() => {
-    getTodos({ token, setTodos,todos });
-  }, []);
+    getTodos({ token, setTodos });
+  }, [token]);
 
   return (
     <div>
-      Token:{token}
+      
       <h3>Todolist</h3>
       請新增 Todo 事項
       <br />
@@ -171,19 +172,58 @@ export function Todolist({ token }) {
           setNewTodo(event.target.value);
         }}
       />
-      <button onClick={() => addTodo({ newTodo, token, setNewTodo,setTodos,todos })}>
+      <button
+        onClick={() =>
+          addTodo({ newTodo, token, setNewTodo, setTodos, todos })
+        }>
         新增
       </button>
       <br />
-      所有 Todo 事項：
+      <h3>所有 Todo 事項：</h3>
       <ul>
         {todos.map((item, index) => (
           <li key={index}>
-            {item.content}
-            <button>已完成</button>
+            {item.status ? '(已完成)' : '(未完成)'}
+            <input
+              type='checkbox'
+              onClick={() => {
+                toggleDone(item.id, { token, setTodos });
+              }}
+            />
+
+            {item.status ? (
+              <span style={{ textDecoration: 'line-through' }}>
+                {item.content}
+              </span>
+            ) : (
+              <span>{item.content}</span>
+            )}
+
+            <input
+              type='text'
+              placeholder='更新值'
+              onChange={e => {
+                setTodoEdit({
+                  ...todoEdit, //在全部現有的 todoEdit 事項之餘(最當初是空的{})，
+                  [item.id]: e.target.value //再增加 [item.id](計算屬性名稱): e.target.value。id 是新增事項時，API回傳提供的。todoEdit 收集暫存了所有的修改事項。
+                });
+              }}
+            />
             <button
-              onClick={event => {
-                deleteTodo(event.target);
+              onClick={() => {
+                editTodo(item.id, {
+                  token,
+                  setTodos,
+                  todos,
+                  todoEdit,
+                  setTodoEdit
+                });
+              }}>
+              修改
+            </button>
+            <button
+              onClick={() => {
+                deleteTodo(item.id, { token, setTodos });
               }}>
               刪除
             </button>
@@ -193,3 +233,5 @@ export function Todolist({ token }) {
     </div>
   );
 }
+
+

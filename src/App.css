@@ -2,13 +2,15 @@ button {
   margin: 10px 0 10px 0;
 }
 
-button:hover{cursor: pointer;}
+button:hover {
+  cursor: pointer;
+}
 
 .upperrow {
   display: flex;
 }
 
-span {
+.showToken {
   font-size: 12px;
   word-break: break-all;
 }
@@ -16,18 +18,13 @@ span {
 .signup,
 .signin,
 .checkout,
-.signout,
-.todolist {
+.signout {
   border: 2px solid #645747;
   box-shadow: 5px 5px grey;
   border-radius: 5%;
   width: 20%;
   max-height: 20%;
   padding: 2%;
-}
-
-.todolist {
-  background-color: #ac9fafce;
 }
 
 .signin {
@@ -42,4 +39,14 @@ span {
 }
 .signout {
   background-color: #6a758e;
+}
+
+.todolist {
+  border: 2px solid #645747;
+  box-shadow: 5px 5px grey;
+  border-radius: 5%;
+  width: 40%;
+  max-height: 20%;
+  padding: 2%;
+  background-color: #ac9fafce;
 }

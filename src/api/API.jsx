@@ -113,6 +113,8 @@ export async function getTodos({ token, setTodos }) {
       }
     });
     setTodos(response.data.data);
+
+    console.log(response.data.data);
   } catch (error) {
     throw new Error(error);
   }
@@ -120,11 +122,14 @@ export async function getTodos({ token, setTodos }) {
 
 //addTodo 功能
 export async function addTodo({ token, newTodo, setNewTodo, setTodos }) {
-  if (!newTodo) return;
+  if (!newTodo) {
+    alert('請輸入新增事項！');
+    return;
+  }
 
   await axios.post(
     `${baseUrl}/todos`,
-    { content:  newTodo  },
+    { content: newTodo },
     { headers: { Authorization: token } }
   );
   setNewTodo('');
@@ -132,4 +137,54 @@ export async function addTodo({ token, newTodo, setNewTodo, setTodos }) {
 }
 
 //deleteTodo 功能
-export async function deleteTodo() {}
+export async function deleteTodo(id, { token, setTodos }) {
+  await axios.delete(`${baseUrl}/todos/${id}`, {
+    headers: { Authorization: token }
+  });
+  getTodos({ token, setTodos });
+}
+
+// editTodo 功能
+export async function editTodo(
+  id,
+  { token, setTodos, todos, setTodoEdit, todoEdit }
+) {
+  try {
+    const todo = todos.find(todo => todo.id === id); //以 id 相符的方式指定所選的事項
+    todo.content = todoEdit[id]; //所選事項的 content 被賦值("content" 這個 key 是 API 定義的，參閱API文件)，賦值的內容是 todoEdit 中，id 相符的事項
+    if (todo.content == '') {
+      alert('請輸入更新值！');
+      return;
+    }
+    await axios.put(`${baseUrl}/todos/${id}`, todo, {
+      headers: {
+        Authorization: token
+      }
+    });
+    getTodos({ token, setTodos });
+    setTodoEdit({
+      ...todoEdit,
+      [id]: '' //只清空我剛剛按下修改按鈕的事項的內容，其他事項沒有清空，避免一併被清空。
+    });
+    console.log(todoEdit);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+//toggleDone 功能
+export async function toggleDone(id, { token, setTodos }) {
+  try {
+    const response = await axios.patch(
+      `${baseUrl}/todos/${id}/toggle`,
+      {},
+      { headers: { authorization: token } }
+    );
+    console.log(response.data.status); //問題：為什麼永遠都是 {status: true, message: '狀態更新成功'}？
+    getTodos({ token, setTodos });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}

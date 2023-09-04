@@ -1,8 +1,9 @@
-# React + Vite
+# Week 3 作業
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. 請先註冊電子郵件信箱、密碼(至少六位元)、使用者名稱
+2. 登入
+3. 按「檢查」確認是否有登入成功
+4. 於輸入欄位新增 Todo 事項後按「新增」
+5. 按下方形空格切換完成/未完成
+6. 更新事項內容再按「修改」
+7. 可刪除事項
