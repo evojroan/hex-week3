@@ -180,7 +180,7 @@ export async function toggleDone(id, { token, setTodos }) {
       {},
       { headers: { authorization: token } }
     );
-    console.log(response.data.status); //問題：為什麼永遠都是 {status: true, message: '狀態更新成功'}？
+    console.log(response.data.status);
     getTodos({ token, setTodos });
 
     return response.data;
